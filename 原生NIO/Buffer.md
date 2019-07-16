@@ -101,3 +101,33 @@ reset（）： position = mark
 2. 所有元素都相等，但第一个Buffer比另一个先耗尽(第一个Buffer的元素个数比另一个少)。
 
 *（注：剩余元素是从 position到limit之间的元素）*
+
+
+
+##### 多Buffer写入与读取 Scatter/Gather
+
+Scattering Reads：是指数据从一个channel读取到多个buffer中
+
+```java
+ByteBuffer header = ByteBuffer.allocate(128);
+ByteBuffer body   = ByteBuffer.allocate(1024);
+//读取Buffer数组
+ByteBuffer[] bufferArray = { header, body };
+channel.read(bufferArray);
+```
+
+按长度读取，所以header中必须要进行填充
+
+
+
+Gathering Writes：是指数据从多个buffer写入到同一个channel。
+
+```java
+ByteBuffer header = ByteBuffer.allocate(128);
+ByteBuffer body   = ByteBuffer.allocate(1024);
+//Buffer数组写入Channel
+ByteBuffer[] bufferArray = { header, body };
+channel.write(bufferArray);
+```
+
+写入的时候会根据position和limit，所以支持动态消息
