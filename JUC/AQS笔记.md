@@ -92,6 +92,7 @@ private Node addWaiter(Node mode) {
         Node pred = tail;
         if (pred != null) {
             node.prev = pred;
+            //把这个新的节点放到末尾。并设置tail=node
             if (compareAndSetTail(pred, node)) {
                 pred.next = node;
                 return node;
@@ -118,7 +119,7 @@ final boolean acquireQueued(final Node node, int arg) {
                     failed = false;
                     return interrupted;
                 }
-                // p == tail  p.pre
+                // 把当前线程阻塞
                 if (shouldParkAfterFailedAcquire(p, node) &&
                     parkAndCheckInterrupt())
                     interrupted = true;
