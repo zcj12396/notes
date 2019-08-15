@@ -69,11 +69,24 @@ ireturn //方法调用结束后，计算结果会直接放入操作数栈
 
 
 
+## invokespecial和invokevirtual两种指令
 
+1.**invokespecial只能调用三类方法**：**<init>方法**；**private方法**；**super.method()**。因为这三类方法的调用对象在编译时就可以确定。
+
+2.**invokevirtual**是一种动态分派的调用指令：也就是引用的类型并不能决定方法属于哪个类型。
+
+大多数对一个对象方法的调用都是invokevirtual
 
 
 
 #### tips
 
 - Java虚拟机指令由一个字节来表示，所以最多不能超过256条，所以省略了一些例如byte,short,byte的操作指令，转由int类型的指令代替，这并不会影响到实际的结果。唯一的代价只是要把计算操作结果截断到它们的有效位置。因为byte、short、int及引用类型在局部变量表中都是占一个字的大小（在32位计算机中为4个字节）
+
 - JVM对于long和double的支持与int相比，缺少了条件转移指令部分（由于long和double的存储在局部变量表中占两个字）
+
+- JavaType与TypeSignature对比
+
+  https://docs.oracle.com/javase/6/docs/technotes/guides/jni/spec/types.html#wp16432
+
+  
